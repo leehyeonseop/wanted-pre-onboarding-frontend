@@ -1,9 +1,10 @@
-import { Button, TextField } from '@mui/material';
-import { useState } from 'react';
+import { Alert, Button, Snackbar, TextField } from '@mui/material';
+import LoginIcon from '@mui/icons-material/Login';
+import { useEffect, useState } from 'react';
 import { axiosInstance } from '../axiosInstance';
 import { Form, Wrapper } from './HomePage.style';
 import { emailRegExp, passwordRegExp } from '../regExp';
-import { setToken } from '../localStorage';
+import { getToken, setToken } from '../localStorage';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
@@ -12,6 +13,7 @@ const HomePage = () => {
         password: '',
     });
     const [isLogin, setIsLogin] = useState(true);
+    const [open, setOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -44,7 +46,7 @@ const HomePage = () => {
 
         try {
             const response = await axiosInstance.post('auth/signup', reqData);
-            console.log(response.status);
+            response.status === 201 && setOpen(true);
         } catch (error) {
             console.error(error);
             alert('회원가입 실패');
@@ -59,7 +61,6 @@ const HomePage = () => {
 
         try {
             const response = await axiosInstance.post('auth/signin', reqData);
-            console.log(response);
             setToken(response.data.access_token);
             navigate('/todo');
         } catch (error) {
@@ -68,8 +69,30 @@ const HomePage = () => {
         }
     };
 
+    useEffect(() => {
+        getToken() && navigate('/todo');
+    }, []);
+
     return (
         <Wrapper>
+            <h1>{isLogin ? '로그인' : '회원가입'}</h1>
+            <Snackbar
+                open={open}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                message="회원가입이 완료되었습니다."
+                action={
+                    <Button
+                        onClick={() => {
+                            setIsLogin(true);
+                            setOpen(false);
+                        }}
+                        color="inherit"
+                        size="small"
+                    >
+                        <LoginIcon />
+                    </Button>
+                }
+            />
             <Form>
                 <TextField
                     required

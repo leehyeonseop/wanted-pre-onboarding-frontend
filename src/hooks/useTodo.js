@@ -43,5 +43,22 @@ export const useTodo = () => {
         }
     };
 
-    return { todoList, getTodos, createTodo, deleteTodo };
+    const updateTodo = async (id, text, isCompleted) => {
+        try {
+            const reqData = {
+                todo: text,
+                isCompleted: isCompleted,
+            };
+
+            const response = await axiosInstance.put(`todos/${id}`, reqData, {
+                headers: getJWTHeader(),
+            });
+
+            response.status === 200 && getTodos();
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    return { todoList, getTodos, createTodo, deleteTodo, updateTodo };
 };
