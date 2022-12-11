@@ -1,10 +1,4 @@
-import {
-    Button,
-    Checkbox,
-    ListItem,
-    ListItemText,
-    TextField,
-} from '@mui/material';
+import { Button, Checkbox, ListItemText, TextField } from '@mui/material';
 import { useState } from 'react';
 import { StyledListItem } from './Todo.style';
 
