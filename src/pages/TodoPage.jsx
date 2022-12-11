@@ -19,10 +19,7 @@ const TodoPage = () => {
         useTodo();
 
     useEffect(() => {
-        getToken() !== null && getTodos();
-        return () => {
-            getToken() === null && navigate('/');
-        };
+        getToken() !== null ? getTodos() : navigate('/');
     }, []);
 
     return (
