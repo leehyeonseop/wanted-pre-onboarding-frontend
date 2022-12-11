@@ -1,11 +1,13 @@
-import { Alert, Button, Snackbar, TextField } from '@mui/material';
-import LoginIcon from '@mui/icons-material/Login';
 import { useEffect, useState } from 'react';
-import { axiosInstance } from '../axiosInstance';
-import { Form, Wrapper } from './HomePage.style';
-import { emailRegExp, passwordRegExp } from '../regExp';
-import { getToken, setToken } from '../localStorage';
 import { useNavigate } from 'react-router-dom';
+import { axiosInstance } from '../axiosInstance';
+import { getToken, setToken } from '../localStorage';
+import { emailRegExp, passwordRegExp } from '../regExp';
+
+import { Button, Snackbar, TextField } from '@mui/material';
+import LoginIcon from '@mui/icons-material/Login';
+
+import { Form, Wrapper } from './HomePage.style';
 
 const HomePage = () => {
     const [information, setInformation] = useState({
@@ -65,7 +67,7 @@ const HomePage = () => {
             navigate('/todo');
         } catch (error) {
             console.error(error);
-            alert('로그인 실패');
+            alert('아이디와 비밀번호를 확인해주세요.');
         }
     };
 

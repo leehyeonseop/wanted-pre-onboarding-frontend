@@ -6,6 +6,7 @@ import {
     TextField,
 } from '@mui/material';
 import { useState } from 'react';
+import { StyledListItem } from './Todo.style';
 
 const Todo = (props) => {
     const { checked, text, id, deleteTodo, updateTodo } = props;
@@ -15,7 +16,7 @@ const Todo = (props) => {
 
     return (
         <>
-            <ListItem disablePadding>
+            <StyledListItem disablePadding>
                 <Checkbox
                     edge="start"
                     checked={isCompleted}
@@ -54,7 +55,7 @@ const Todo = (props) => {
                 >
                     {isEdit ? '취소' : '삭제'}
                 </Button>
-            </ListItem>
+            </StyledListItem>
         </>
     );
 };

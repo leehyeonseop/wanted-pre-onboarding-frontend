@@ -1,12 +1,15 @@
-import { Button, IconButton, List } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import LogoutIcon from '@mui/icons-material/Logout';
 import { useEffect, useState } from 'react';
-import { H1, StyledTextField, Wrapper } from './TodoPage.style';
-import Todo from '../components/Todo';
+import { useNavigate } from 'react-router-dom';
 import { useTodo } from '../hooks/useTodo';
 import { getToken, removeToken } from '../localStorage';
-import { useNavigate } from 'react-router-dom';
+
+import Todo from '../components/Todo';
+
+import { Button, List } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
+
+import { H1, StyledTextField, Wrapper } from './TodoPage.style';
 
 const TodoPage = () => {
     const [todo, setTodo] = useState('');
@@ -16,9 +19,8 @@ const TodoPage = () => {
         useTodo();
 
     useEffect(() => {
-        getToken() === null && navigate('/');
         return () => {
-            getTodos();
+            getToken() === null ? navigate('/') : getTodos();
         };
     }, []);
 
@@ -46,7 +48,10 @@ const TodoPage = () => {
                         onChange={(e) => setTodo(e.target.value)}
                     />
                     <Button
-                        onClick={() => createTodo(todo)}
+                        onClick={() => {
+                            createTodo(todo);
+                            setTodo('');
+                        }}
                         variant="contained"
                         startIcon={<AddCircleIcon />}
                         disabled={todo.length === 0}
@@ -58,7 +63,6 @@ const TodoPage = () => {
                 <List>
                     {todoList &&
                         todoList.map((value) => {
-                            console.log(value);
                             return (
                                 <Todo
                                     key={value.id}
